@@ -1,0 +1,155 @@
+﻿<UserControl x:Class="citPOINT.StrategyApp.Client.NegotiationSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             MinWidth="280"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+             xmlns:common="clr-namespace:citPOINT.eNeg.Common;assembly=citPOINT.eNeg.Common">
+
+    <UserControl.Resources>
+        <common:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+        <Style TargetType="Border"
+               x:Key="mainBorerStyle">
+            <Setter Property="BorderThickness"
+                    Value="1" />
+            <Setter Property="BorderBrush"
+                    Value="Gray" />
+            <Setter Property="Margin"
+                    Value="20,10" />
+        </Style>
+
+        <Style TargetType="Border"
+               x:Key="groupBorerStyle">
+            <Setter Property="BorderThickness"
+                    Value="1" />
+            <Setter Property="BorderBrush"
+                    Value="White" />
+            <Setter Property="Background"
+                    Value="White" />
+            <Setter Property="HorizontalAlignment"
+                    Value="Left" />
+            <Setter Property="VerticalAlignment"
+                    Value="Top" />
+            <Setter Property="Margin"
+                    Value="20,0" />
+            <Setter Property="Padding"
+                    Value="5,0" />
+            <Setter Property="Width"
+                    Value="Auto" />
+            <Setter Property="Height"
+                    Value="20" />
+        </Style>
+
+        <Style TargetType="TextBlock"
+               x:Key="groupTitleStyle">
+            <Setter Property="HorizontalAlignment"
+                    Value="Center" />
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+            <Setter Property="FontWeight"
+                    Value="Normal" />
+            <Setter Property="Foreground"
+                    Value="#FF2D75CE" />
+        </Style>
+
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot"
+          Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="35" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0"
+                Margin="10"
+                Style="{StaticResource mainBorerStyle}">
+            <Grid Margin="10,20,0,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="70" />
+                    <RowDefinition Height="70" />
+                    <RowDefinition Height="30" />
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70*" />
+                    <ColumnDefinition Width="30*" />
+                </Grid.ColumnDefinitions>
+
+                <telerik:RadComboBox DisplayMemberPath="StrategyTypeName"
+                                     EmptyText="Select Your Strategy ..."
+                                     IsEditable="True"
+                                     Margin="0,0,5,0"
+                                     Height="30"
+                                     ItemsSource="{Binding StrategyTypeSource}"
+                                     Name="uxcboStrategies"
+                                     SelectedIndex="0"
+                                     SelectedItem="{Binding CurrentNegotiationSetting.StrategyType, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                                     telerik:TextSearch.TextPath="StrategyTypeName" />
+
+                <telerik:RadNumericUpDown Grid.Row="0"
+                                          Grid.Column="1"
+                                          NullValue="0"
+                                          NumberDecimalDigits="2"
+                                          Width="50"
+                                          Height="25"
+                                          Margin="0"
+                                          Value="{Binding CurrentNegotiationSetting.BetaValue,Mode=TwoWay,ValidatesOnDataErrors=True,ValidatesOnExceptions=True,ValidatesOnNotifyDataErrors=True}"
+                                          Visibility="{Binding CurrentNegotiationSetting.IsStrategyDefinedByUser, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                          Minimum="0" />
+
+
+                <StackPanel Grid.Row="1"
+                            Grid.ColumnSpan="2"
+                            VerticalAlignment="Center">
+                    <TextBlock Text="Negotiation Start Date:"
+                               Margin="0,0,0,5" />
+                    <telerik:RadDateTimePicker HorizontalAlignment="Stretch"
+                                               Margin="0,0,10,0"
+                                               Name="uxDatePickerStart"
+                                               DateTimeWatermarkContent="Select Start Date"
+                                               DateSelectionMode="Day"
+                                               SelectedValue="{Binding CurrentNegotiationSetting.DefaultStartDate,Mode=TwoWay}" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="2"
+                            Grid.ColumnSpan="2" VerticalAlignment="Center">
+                    <TextBlock Text="Negotiation End Date:"
+                               Margin="0,0,0,5" />
+                    <telerik:RadDateTimePicker HorizontalAlignment="Stretch"
+                                               Margin="0,0,10,0"
+                                               Name="uxDatePickerEnd"
+                                               DateTimeWatermarkContent="Select End Date"
+                                               DateSelectionMode="Day"
+                                               SelectedValue="{Binding CurrentNegotiationSetting.DefaultEndDate,Mode=TwoWay}" />
+                </StackPanel>
+
+
+                <telerik:RadButton Grid.Row="3"
+                                   Grid.ColumnSpan="2"
+                                   Content="Save"
+                                   Height="25"
+                                   HorizontalAlignment="Center"
+                                   Name="uxcmdSubmit"
+                                   VerticalAlignment="Center"
+                                   Width="100"
+                                   Command="{Binding SubmitChangeCommand}" />
+            </Grid>
+        </Border>
+
+        <!-- My Strategy -->
+        <Border Grid.Row="0"
+                Style="{StaticResource groupBorerStyle}">
+            <TextBlock Text="My Strategy"
+                       Style="{StaticResource groupTitleStyle}" />
+        </Border>
+
+    </Grid>
+</UserControl>

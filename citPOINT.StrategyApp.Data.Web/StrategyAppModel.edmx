@@ -1,0 +1,393 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="StrategyAppModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="StrategyAppModelStoreContainer">
+          <EntitySet Name="ConversationStrategySettings" EntityType="StrategyAppModel.Store.ConversationStrategySettings" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="NegotiationStrategySettings" EntityType="StrategyAppModel.Store.NegotiationStrategySettings" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="StrategyType" EntityType="StrategyAppModel.Store.StrategyType" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__Conversat__Negot__09DE7BCC" Association="StrategyAppModel.Store.FK__Conversat__Negot__09DE7BCC">
+            <End Role="NegotiationStrategySettings" EntitySet="NegotiationStrategySettings" />
+            <End Role="ConversationStrategySettings" EntitySet="ConversationStrategySettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Conversat__Strat__08EA5793" Association="StrategyAppModel.Store.FK__Conversat__Strat__08EA5793">
+            <End Role="StrategyType" EntitySet="StrategyType" />
+            <End Role="ConversationStrategySettings" EntitySet="ConversationStrategySettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Negotiati__Strat__0AD2A005" Association="StrategyAppModel.Store.FK__Negotiati__Strat__0AD2A005">
+            <End Role="StrategyType" EntitySet="StrategyType" />
+            <End Role="NegotiationStrategySettings" EntitySet="NegotiationStrategySettings" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ConversationStrategySettings">
+          <Key>
+            <PropertyRef Name="ConversationStrategySettingsID" />
+          </Key>
+          <Property Name="ConversationStrategySettingsID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ConversationID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StartDate" Type="datetime" Nullable="false" />
+          <Property Name="EndDate" Type="datetime" Nullable="false" />
+          <Property Name="BetaValue" Type="decimal" Scale="2" />
+          <Property Name="StrategyTypeID" Type="int" Nullable="false" />
+          <Property Name="NegotiationStrategySettingsID" Type="uniqueidentifier" />
+          <Property Name="Deleted" Type="bit" />
+          <Property Name="DeletedBy" Type="uniqueidentifier" />
+          <Property Name="DeletedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="NegotiationStrategySettings">
+          <Key>
+            <PropertyRef Name="NegotiationStrategySettingsID" />
+          </Key>
+          <Property Name="NegotiationStrategySettingsID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="NegotiationID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DefaultStartDate" Type="datetime" Nullable="false" />
+          <Property Name="DefaultEndDate" Type="datetime" Nullable="false" />
+          <Property Name="BetaValue" Type="decimal" Scale="2" />
+          <Property Name="StrategyTypeID" Type="int" Nullable="false" />
+          <Property Name="Deleted" Type="bit" />
+          <Property Name="DeletedBy" Type="uniqueidentifier" />
+          <Property Name="DeletedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="StrategyType">
+          <Key>
+            <PropertyRef Name="StrategyTypeID" />
+          </Key>
+          <Property Name="StrategyTypeID" Type="int" Nullable="false" />
+          <Property Name="StrategyTypeName" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="Beta" Type="decimal" Scale="2" />
+        </EntityType>
+        <Association Name="FK__Conversat__Negot__09DE7BCC">
+          <End Role="NegotiationStrategySettings" Type="StrategyAppModel.Store.NegotiationStrategySettings" Multiplicity="0..1" />
+          <End Role="ConversationStrategySettings" Type="StrategyAppModel.Store.ConversationStrategySettings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NegotiationStrategySettings">
+              <PropertyRef Name="NegotiationStrategySettingsID" />
+            </Principal>
+            <Dependent Role="ConversationStrategySettings">
+              <PropertyRef Name="NegotiationStrategySettingsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Conversat__Strat__08EA5793">
+          <End Role="StrategyType" Type="StrategyAppModel.Store.StrategyType" Multiplicity="1" />
+          <End Role="ConversationStrategySettings" Type="StrategyAppModel.Store.ConversationStrategySettings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StrategyType">
+              <PropertyRef Name="StrategyTypeID" />
+            </Principal>
+            <Dependent Role="ConversationStrategySettings">
+              <PropertyRef Name="StrategyTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Negotiati__Strat__0AD2A005">
+          <End Role="StrategyType" Type="StrategyAppModel.Store.StrategyType" Multiplicity="1" />
+          <End Role="NegotiationStrategySettings" Type="StrategyAppModel.Store.NegotiationStrategySettings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StrategyType">
+              <PropertyRef Name="StrategyTypeID" />
+            </Principal>
+            <Dependent Role="NegotiationStrategySettings">
+              <PropertyRef Name="StrategyTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="uspConversationStrategySettingsDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ConversationStrategySettingsID" Type="uniqueidentifier" Mode="In" />
+        </Function>
+        <Function Name="uspConversationStrategySettingsInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ConversationStrategySettingsID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ConversationID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="StartDate" Type="datetime" Mode="In" />
+          <Parameter Name="EndDate" Type="datetime" Mode="In" />
+          <Parameter Name="BetaValue" Type="decimal" Mode="In" />
+          <Parameter Name="StrategyTypeID" Type="int" Mode="In" />
+          <Parameter Name="NegotiationStrategySettingsID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="Deleted" Type="bit" Mode="In" />
+          <Parameter Name="DeletedBy" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="DeletedOn" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="uspConversationStrategySettingsSelect" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ConversationStrategySettingsID" Type="uniqueidentifier" Mode="In" />
+        </Function>
+        <Function Name="uspConversationStrategySettingsUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ConversationStrategySettingsID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ConversationID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="StartDate" Type="datetime" Mode="In" />
+          <Parameter Name="EndDate" Type="datetime" Mode="In" />
+          <Parameter Name="BetaValue" Type="decimal" Mode="In" />
+          <Parameter Name="StrategyTypeID" Type="int" Mode="In" />
+          <Parameter Name="NegotiationStrategySettingsID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="Deleted" Type="bit" Mode="In" />
+          <Parameter Name="DeletedBy" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="DeletedOn" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="uspNegotiationStrategySettingsDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NegotiationStrategySettingsID" Type="uniqueidentifier" Mode="In" />
+        </Function>
+        <Function Name="uspNegotiationStrategySettingsInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NegotiationStrategySettingsID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="NegotiationID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="DefaultStartDate" Type="datetime" Mode="In" />
+          <Parameter Name="DefaultEndDate" Type="datetime" Mode="In" />
+          <Parameter Name="BetaValue" Type="decimal" Mode="In" />
+          <Parameter Name="StrategyTypeID" Type="int" Mode="In" />
+          <Parameter Name="Deleted" Type="bit" Mode="In" />
+          <Parameter Name="DeletedBy" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="DeletedOn" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="uspNegotiationStrategySettingsSelect" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NegotiationStrategySettingsID" Type="uniqueidentifier" Mode="In" />
+        </Function>
+        <Function Name="uspNegotiationStrategySettingsUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NegotiationStrategySettingsID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="NegotiationID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="DefaultStartDate" Type="datetime" Mode="In" />
+          <Parameter Name="DefaultEndDate" Type="datetime" Mode="In" />
+          <Parameter Name="BetaValue" Type="decimal" Mode="In" />
+          <Parameter Name="StrategyTypeID" Type="int" Mode="In" />
+          <Parameter Name="Deleted" Type="bit" Mode="In" />
+          <Parameter Name="DeletedBy" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="DeletedOn" Type="datetime" Mode="In" />
+        </Function>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StrategyAppModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="StrategyAppEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ConversationStrategySettings" EntityType="StrategyAppModel.ConversationStrategySetting" />
+          <EntitySet Name="NegotiationStrategySettings" EntityType="StrategyAppModel.NegotiationStrategySetting" />
+          <EntitySet Name="StrategyTypes" EntityType="StrategyAppModel.StrategyType" />
+          <AssociationSet Name="FK__Conversat__Negot__09DE7BCC" Association="StrategyAppModel.FK__Conversat__Negot__09DE7BCC">
+            <End Role="NegotiationStrategySettings" EntitySet="NegotiationStrategySettings" />
+            <End Role="ConversationStrategySettings" EntitySet="ConversationStrategySettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Conversat__Strat__08EA5793" Association="StrategyAppModel.FK__Conversat__Strat__08EA5793">
+            <End Role="StrategyType" EntitySet="StrategyTypes" />
+            <End Role="ConversationStrategySettings" EntitySet="ConversationStrategySettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Negotiati__Strat__0AD2A005" Association="StrategyAppModel.FK__Negotiati__Strat__0AD2A005">
+            <End Role="StrategyType" EntitySet="StrategyTypes" />
+            <End Role="NegotiationStrategySettings" EntitySet="NegotiationStrategySettings" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ConversationStrategySetting">
+          <Key>
+            <PropertyRef Name="ConversationStrategySettingsID" />
+          </Key>
+          <Property Name="ConversationStrategySettingsID" Type="Guid" Nullable="false" />
+          <Property Name="ConversationID" Type="Guid" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" />
+          <Property Name="BetaValue" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="StrategyTypeID" Type="Int32" Nullable="false" />
+          <Property Name="NegotiationStrategySettingsID" Type="Guid" />
+          <Property Name="Deleted" Type="Boolean" />
+          <Property Name="DeletedBy" Type="Guid" />
+          <Property Name="DeletedOn" Type="DateTime" />
+          <NavigationProperty Name="NegotiationStrategySetting" Relationship="StrategyAppModel.FK__Conversat__Negot__09DE7BCC" FromRole="ConversationStrategySettings" ToRole="NegotiationStrategySettings" />
+          <NavigationProperty Name="StrategyType" Relationship="StrategyAppModel.FK__Conversat__Strat__08EA5793" FromRole="ConversationStrategySettings" ToRole="StrategyType" />
+        </EntityType>
+        <EntityType Name="NegotiationStrategySetting">
+          <Key>
+            <PropertyRef Name="NegotiationStrategySettingsID" />
+          </Key>
+          <Property Name="NegotiationStrategySettingsID" Type="Guid" Nullable="false" />
+          <Property Name="NegotiationID" Type="Guid" Nullable="false" />
+          <Property Name="DefaultStartDate" Type="DateTime" Nullable="false" />
+          <Property Name="DefaultEndDate" Type="DateTime" Nullable="false" />
+          <Property Name="BetaValue" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="StrategyTypeID" Type="Int32" Nullable="false" />
+          <Property Name="Deleted" Type="Boolean" />
+          <Property Name="DeletedBy" Type="Guid" />
+          <Property Name="DeletedOn" Type="DateTime" />
+          <NavigationProperty Name="ConversationStrategySettings" Relationship="StrategyAppModel.FK__Conversat__Negot__09DE7BCC" FromRole="NegotiationStrategySettings" ToRole="ConversationStrategySettings" />
+          <NavigationProperty Name="StrategyType" Relationship="StrategyAppModel.FK__Negotiati__Strat__0AD2A005" FromRole="NegotiationStrategySettings" ToRole="StrategyType" />
+        </EntityType>
+        <EntityType Name="StrategyType">
+          <Key>
+            <PropertyRef Name="StrategyTypeID" />
+          </Key>
+          <Property Name="StrategyTypeID" Type="Int32" Nullable="false" />
+          <Property Name="StrategyTypeName" Type="String" Nullable="false" MaxLength="200" Unicode="true" FixedLength="false" />
+          <Property Name="Beta" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="ConversationStrategySettings" Relationship="StrategyAppModel.FK__Conversat__Strat__08EA5793" FromRole="StrategyType" ToRole="ConversationStrategySettings" />
+          <NavigationProperty Name="NegotiationStrategySettings" Relationship="StrategyAppModel.FK__Negotiati__Strat__0AD2A005" FromRole="StrategyType" ToRole="NegotiationStrategySettings" />
+        </EntityType>
+        <Association Name="FK__Conversat__Negot__09DE7BCC">
+          <End Role="NegotiationStrategySettings" Type="StrategyAppModel.NegotiationStrategySetting" Multiplicity="0..1" />
+          <End Role="ConversationStrategySettings" Type="StrategyAppModel.ConversationStrategySetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NegotiationStrategySettings">
+              <PropertyRef Name="NegotiationStrategySettingsID" />
+            </Principal>
+            <Dependent Role="ConversationStrategySettings">
+              <PropertyRef Name="NegotiationStrategySettingsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Conversat__Strat__08EA5793">
+          <End Role="StrategyType" Type="StrategyAppModel.StrategyType" Multiplicity="1" />
+          <End Role="ConversationStrategySettings" Type="StrategyAppModel.ConversationStrategySetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StrategyType">
+              <PropertyRef Name="StrategyTypeID" />
+            </Principal>
+            <Dependent Role="ConversationStrategySettings">
+              <PropertyRef Name="StrategyTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Negotiati__Strat__0AD2A005">
+          <End Role="StrategyType" Type="StrategyAppModel.StrategyType" Multiplicity="1" />
+          <End Role="NegotiationStrategySettings" Type="StrategyAppModel.NegotiationStrategySetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StrategyType">
+              <PropertyRef Name="StrategyTypeID" />
+            </Principal>
+            <Dependent Role="NegotiationStrategySettings">
+              <PropertyRef Name="StrategyTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StrategyAppModelStoreContainer" CdmEntityContainer="StrategyAppEntities">
+          <EntitySetMapping Name="ConversationStrategySettings"><EntityTypeMapping TypeName="StrategyAppModel.ConversationStrategySetting"><MappingFragment StoreEntitySet="ConversationStrategySettings">
+            <ScalarProperty Name="ConversationStrategySettingsID" ColumnName="ConversationStrategySettingsID" />
+            <ScalarProperty Name="ConversationID" ColumnName="ConversationID" />
+            <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+            <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+            <ScalarProperty Name="BetaValue" ColumnName="BetaValue" />
+            <ScalarProperty Name="StrategyTypeID" ColumnName="StrategyTypeID" />
+            <ScalarProperty Name="NegotiationStrategySettingsID" ColumnName="NegotiationStrategySettingsID" />
+            <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+            <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+            <ScalarProperty Name="DeletedOn" ColumnName="DeletedOn" />
+          </MappingFragment></EntityTypeMapping>
+            <EntityTypeMapping TypeName="StrategyAppModel.ConversationStrategySetting">
+              <ModificationFunctionMapping>
+                <DeleteFunction FunctionName="StrategyAppModel.Store.uspConversationStrategySettingsDelete">
+                  <ScalarProperty Name="ConversationStrategySettingsID" ParameterName="ConversationStrategySettingsID" />
+                </DeleteFunction>
+                <UpdateFunction FunctionName="StrategyAppModel.Store.uspConversationStrategySettingsUpdate">
+                  <ScalarProperty Name="DeletedOn" ParameterName="DeletedOn" Version="Current" />
+                  <ScalarProperty Name="DeletedBy" ParameterName="DeletedBy" Version="Current" />
+                  <ScalarProperty Name="Deleted" ParameterName="Deleted" Version="Current" />
+                  <ScalarProperty Name="NegotiationStrategySettingsID" ParameterName="NegotiationStrategySettingsID" Version="Current" />
+                  <ScalarProperty Name="StrategyTypeID" ParameterName="StrategyTypeID" Version="Current" />
+                  <ScalarProperty Name="BetaValue" ParameterName="BetaValue" Version="Current" />
+                  <ScalarProperty Name="EndDate" ParameterName="EndDate" Version="Current" />
+                  <ScalarProperty Name="StartDate" ParameterName="StartDate" Version="Current" />
+                  <ScalarProperty Name="ConversationID" ParameterName="ConversationID" Version="Current" />
+                  <ScalarProperty Name="ConversationStrategySettingsID" ParameterName="ConversationStrategySettingsID" Version="Current" />
+                </UpdateFunction>
+                <InsertFunction FunctionName="StrategyAppModel.Store.uspConversationStrategySettingsInsert">
+                  <ScalarProperty Name="DeletedOn" ParameterName="DeletedOn" />
+                  <ScalarProperty Name="DeletedBy" ParameterName="DeletedBy" />
+                  <ScalarProperty Name="Deleted" ParameterName="Deleted" />
+                  <ScalarProperty Name="NegotiationStrategySettingsID" ParameterName="NegotiationStrategySettingsID" />
+                  <ScalarProperty Name="StrategyTypeID" ParameterName="StrategyTypeID" />
+                  <ScalarProperty Name="BetaValue" ParameterName="BetaValue" />
+                  <ScalarProperty Name="EndDate" ParameterName="EndDate" />
+                  <ScalarProperty Name="StartDate" ParameterName="StartDate" />
+                  <ScalarProperty Name="ConversationID" ParameterName="ConversationID" />
+                  <ScalarProperty Name="ConversationStrategySettingsID" ParameterName="ConversationStrategySettingsID" />
+                </InsertFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="NegotiationStrategySettings"><EntityTypeMapping TypeName="StrategyAppModel.NegotiationStrategySetting"><MappingFragment StoreEntitySet="NegotiationStrategySettings">
+            <ScalarProperty Name="NegotiationStrategySettingsID" ColumnName="NegotiationStrategySettingsID" />
+            <ScalarProperty Name="NegotiationID" ColumnName="NegotiationID" />
+            <ScalarProperty Name="DefaultStartDate" ColumnName="DefaultStartDate" />
+            <ScalarProperty Name="DefaultEndDate" ColumnName="DefaultEndDate" />
+            <ScalarProperty Name="BetaValue" ColumnName="BetaValue" />
+            <ScalarProperty Name="StrategyTypeID" ColumnName="StrategyTypeID" />
+            <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+            <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+            <ScalarProperty Name="DeletedOn" ColumnName="DeletedOn" />
+          </MappingFragment></EntityTypeMapping>
+            <EntityTypeMapping TypeName="StrategyAppModel.NegotiationStrategySetting">
+              <ModificationFunctionMapping>
+                <DeleteFunction FunctionName="StrategyAppModel.Store.uspNegotiationStrategySettingsDelete">
+                  <ScalarProperty Name="NegotiationStrategySettingsID" ParameterName="NegotiationStrategySettingsID" />
+                </DeleteFunction>
+                <UpdateFunction FunctionName="StrategyAppModel.Store.uspNegotiationStrategySettingsUpdate">
+                  <ScalarProperty Name="DeletedOn" ParameterName="DeletedOn" Version="Current" />
+                  <ScalarProperty Name="DeletedBy" ParameterName="DeletedBy" Version="Current" />
+                  <ScalarProperty Name="Deleted" ParameterName="Deleted" Version="Current" />
+                  <ScalarProperty Name="StrategyTypeID" ParameterName="StrategyTypeID" Version="Current" />
+                  <ScalarProperty Name="BetaValue" ParameterName="BetaValue" Version="Current" />
+                  <ScalarProperty Name="DefaultEndDate" ParameterName="DefaultEndDate" Version="Current" />
+                  <ScalarProperty Name="DefaultStartDate" ParameterName="DefaultStartDate" Version="Current" />
+                  <ScalarProperty Name="NegotiationID" ParameterName="NegotiationID" Version="Current" />
+                  <ScalarProperty Name="NegotiationStrategySettingsID" ParameterName="NegotiationStrategySettingsID" Version="Current" />
+                </UpdateFunction>
+                <InsertFunction FunctionName="StrategyAppModel.Store.uspNegotiationStrategySettingsInsert">
+                  <ScalarProperty Name="DeletedOn" ParameterName="DeletedOn" />
+                  <ScalarProperty Name="DeletedBy" ParameterName="DeletedBy" />
+                  <ScalarProperty Name="Deleted" ParameterName="Deleted" />
+                  <ScalarProperty Name="StrategyTypeID" ParameterName="StrategyTypeID" />
+                  <ScalarProperty Name="BetaValue" ParameterName="BetaValue" />
+                  <ScalarProperty Name="DefaultEndDate" ParameterName="DefaultEndDate" />
+                  <ScalarProperty Name="DefaultStartDate" ParameterName="DefaultStartDate" />
+                  <ScalarProperty Name="NegotiationID" ParameterName="NegotiationID" />
+                  <ScalarProperty Name="NegotiationStrategySettingsID" ParameterName="NegotiationStrategySettingsID" />
+                </InsertFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="StrategyTypes"><EntityTypeMapping TypeName="StrategyAppModel.StrategyType"><MappingFragment StoreEntitySet="StrategyType">
+            <ScalarProperty Name="StrategyTypeID" ColumnName="StrategyTypeID" />
+            <ScalarProperty Name="StrategyTypeName" ColumnName="StrategyTypeName" />
+            <ScalarProperty Name="Beta" ColumnName="Beta" />
+          </MappingFragment></EntityTypeMapping>
+            </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="StrategyAppModel">
+        <EntityTypeShape EntityType="StrategyAppModel.ConversationStrategySetting" Width="1.5" PointX="5.25" PointY="5.5" Height="3.3263964843749996" IsExpanded="true" />
+        <EntityTypeShape EntityType="StrategyAppModel.NegotiationStrategySetting" Width="1.5" PointX="3" PointY="7.25" Height="3.1340950520833317" IsExpanded="true" />
+        <EntityTypeShape EntityType="StrategyAppModel.StrategyType" Width="1.5" PointX="0.75" PointY="3.75" Height="1.9802864583333331" IsExpanded="true" />
+        <AssociationConnector Association="StrategyAppModel.FK__Conversat__Negot__09DE7BCC" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="8.0381982421875" />
+          <ConnectorPoint PointX="5.25" PointY="8.0381982421875" />
+        </AssociationConnector>
+        <AssociationConnector Association="StrategyAppModel.FK__Conversat__Strat__08EA5793" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="4.6249994999999995" />
+          <ConnectorPoint PointX="6" PointY="4.6249994999999995" />
+          <ConnectorPoint PointX="6" PointY="5.5" />
+        </AssociationConnector>
+        <AssociationConnector Association="StrategyAppModel.FK__Negotiati__Strat__0AD2A005" ManuallyRouted="false">
+          <ConnectorPoint PointX="1.5" PointY="5.7302864583333335" />
+          <ConnectorPoint PointX="1.5" PointY="8.8170475260416659" />
+          <ConnectorPoint PointX="3" PointY="8.8170475260416659" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
