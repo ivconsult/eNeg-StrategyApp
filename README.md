@@ -2,7 +2,7 @@
 
 ## Description
 
-StrategyApp is based on the different categories of negotiation strategies. 
+StrategyApp is based on the different categories of negotiation strategies. The user defines his negotiation strategy, e.g. hardliner strategy or solution-oriented strategy and the App notifies, if the user doesn't act according the defined strategy. Also the StrategyApp suggest certain actions based on the course of the negotiation/offers exchange.
 
 StrategyApp is a silverlight web based platform with desktop add-on extension, MVVM framework applied with n-tier layers.
 
