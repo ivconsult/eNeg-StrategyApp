@@ -2,7 +2,10 @@
 
 ## Description
 
-StrategyApp is based on the different categories of negotiation strategies. The user defines his negotiation strategy, e.g. hardliner strategy or solution-oriented strategy and the App notifies, if the user doesn't act according the defined strategy. Also the StrategyApp suggest certain actions based on the course of the negotiation/offers exchange.
+StrategyApp is based on the different categories of negotiation strategies. The user defines his negotiation strategy, e.g. hardliner strategy or solution-oriented strategy and the App notifies, if the user doesn't act according the defined strategy. Also the StrategyApp suggest certain actions based on the course of the negotiation/offers exchange. There are two kind of time-based negotiation strategies implemented:
+
+* Conceder Strategies: in the beginning of the negotiation there is a lot of flexibility and reaching the end of the negotiation, the flexibility is getting less.
+* Boulware Strategies: in the beginning of the negotiation there is a position of nearly no flexibility and reaching the end of the negotiation, the flexibility is getting more and the position is solution-oriented to find an agreement
 
 StrategyApp is a silverlight web based platform with desktop add-on extension, MVVM framework applied with n-tier layers.
 
